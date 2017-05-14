@@ -14,7 +14,6 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        print("viewDidLoad")
     }
 
     override func didReceiveMemoryWarning() {
@@ -40,7 +39,11 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
     }
     
     func getYValue(for xValue: CGFloat) -> CGFloat? {
-        return CGFloat(cos(Double(xValue)))
+        if let yValue = unaryFunction?(Double(xValue)) {
+            return CGFloat(yValue)
+        }
+        return nil
     }
 
+    var unaryFunction: ((Double) -> Double?)?
 }

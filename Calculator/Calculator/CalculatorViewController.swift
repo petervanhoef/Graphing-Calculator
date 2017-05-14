@@ -110,5 +110,27 @@ class CalculatorViewController: UIViewController {
         brain.setOperand(variable: symbol)
         displays = brain.evaluateWithErrorReport(using: dictionary)
     }
+    
+    
+    // MARK: - Navigation
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let destinationViewController = segue.destination
+        if let graphingViewController = destinationViewController as? GraphingViewController {
+            if let identifier = segue.identifier {
+                if identifier == "graph" {
+                    graphingViewController.unaryFunction = { [weak weakSelf = self] operand in
+                        let graphingDictionary: [String: Double] = ["M": operand]
+                        return weakSelf?.brain.evaluate(using: graphingDictionary).result }
+                }
+            }
+        }
+    }
+ 
+    override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+        if identifier == "graph" {
+            return !brain.evaluate(using: dictionary).isPending
+        }
+        return false
+    }
 }
-

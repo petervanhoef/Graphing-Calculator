@@ -14,6 +14,7 @@ class CalculatorUITests: XCTestCase {
         super.setUp()
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
+        XCUIDevice.shared().orientation = .landscapeLeft
         
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
@@ -620,5 +621,41 @@ class CalculatorUITests: XCTestCase {
         app.buttons["9"].tap()
         XCTAssertFalse(app.staticTexts["039"].exists)
         XCTAssertTrue(app.staticTexts["39"].exists)
+    }
+    
+    func testGraphButtonAssignment3Task7() {
+        let app = XCUIApplication()
+        
+        app.buttons["M"].tap()
+        app.buttons["cos"].tap()
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["cos(M) ="].exists)
+        XCTAssert(app.staticTexts["1"].exists)
+        XCTAssert(app.staticTexts[" "].exists)
+       
+        app.buttons["M"].tap()
+        app.buttons["√"].tap()
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["√(M) ="].exists)
+        XCTAssert(app.staticTexts["0"].exists)
+        XCTAssert(app.staticTexts[" "].exists)
+        
+        // verify stored value is not overwritten by drawing a graph
+        app.buttons["9"].tap()
+        app.buttons["→M"].tap()
+        XCTAssert(app.staticTexts["√(M) ="].exists)
+        XCTAssert(app.staticTexts["3"].exists)
+        XCTAssert(app.staticTexts["9"].exists)
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["√(M) ="].exists)
+        XCTAssert(app.staticTexts["3"].exists)
+        XCTAssert(app.staticTexts["9"].exists)
+
+        app.buttons["M"].tap()
+        app.buttons["tan"].tap()
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["tan(M) ="].exists)
+        XCTAssert(app.staticTexts["-0.452316"].exists)
+        XCTAssert(app.staticTexts["9"].exists)
     }
 }
