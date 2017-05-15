@@ -12,6 +12,7 @@ protocol GraphingViewDataSource {
     func getYValue(for xValue: CGFloat) -> CGFloat?
 }
 
+@IBDesignable
 class GraphingView: UIView {
     
     var dataSource: GraphingViewDataSource?
@@ -20,6 +21,7 @@ class GraphingView: UIView {
         return CGPoint(x: bounds.midX, y: bounds.midY)
     }
     
+    @IBInspectable
     var scale: CGFloat = 50
 
     private var axesDrawer = AxesDrawer(color: UIColor.black, contentScaleFactor: 1.0)
