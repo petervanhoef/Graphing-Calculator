@@ -16,10 +16,8 @@ protocol GraphingViewDataSource {
 class GraphingView: UIView {
     
     var dataSource: GraphingViewDataSource?
-    
-    private var origin: CGPoint {
-        return CGPoint(x: bounds.midX, y: bounds.midY)
-    }
+
+    private var origin: CGPoint? { didSet { setNeedsDisplay() } }
     
     @IBInspectable
     var scale: CGFloat = 50 { didSet { setNeedsDisplay() } }
@@ -34,6 +32,18 @@ class GraphingView: UIView {
         }
     }
 
+    func moveOrigin(byReactingTo panRecognizer: UIPanGestureRecognizer) {
+        switch panRecognizer.state {
+        case .changed, .ended:
+            let translation = panRecognizer.translation(in: self)
+            origin!.x += translation.x
+            origin!.y += translation.y
+            panRecognizer.setTranslation(CGPoint.zero, in: self)
+        default:
+            break
+        }
+    }
+    
     private var axesDrawer = AxesDrawer(color: UIColor.black, contentScaleFactor: 1.0)
     
     private func pathForUnaryFunction() -> UIBezierPath {
@@ -45,9 +55,9 @@ class GraphingView: UIView {
             var firstPixel = true
 
             for xPixel in 0 ... numberOfPixelsHorizontally {
-                if let yValue = dataSource!.getYValue(for: (CGFloat(xPixel) - origin.x) / scale) {
+                if let yValue = dataSource!.getYValue(for: (CGFloat(xPixel) - origin!.x) / scale) {
                     if yValue.isNormal || yValue.isZero {
-                        let yPixel = origin.y - (yValue * scale)
+                        let yPixel = origin!.y - (yValue * scale)
                         
                         if firstPixel {
                             path.move(to: CGPoint(x: CGFloat(xPixel), y: yPixel))
@@ -69,10 +79,12 @@ class GraphingView: UIView {
     
     override func draw(_ rect: CGRect) {
         // Drawing code
+        if (origin == nil) { origin = CGPoint(x: bounds.midX, y: bounds.midY) }
+        
         UIColor.red.setStroke()
         pathForUnaryFunction().stroke()
         
         axesDrawer.contentScaleFactor = contentScaleFactor
-        axesDrawer.drawAxes(in: bounds, origin: origin, pointsPerUnit: scale)
+        axesDrawer.drawAxes(in: bounds, origin: origin!, pointsPerUnit: scale)
     }
 }
