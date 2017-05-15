@@ -115,13 +115,17 @@ class CalculatorViewController: UIViewController {
     // MARK: - Navigation
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        let destinationViewController = segue.destination
+        var destinationViewController = segue.destination
+        if let navigationController = destinationViewController as? UINavigationController {
+            destinationViewController = navigationController.visibleViewController ?? destinationViewController
+        }
         if let graphingViewController = destinationViewController as? GraphingViewController {
             if let identifier = segue.identifier {
                 if identifier == "graph" {
                     graphingViewController.unaryFunction = { [weak weakSelf = self] operand in
                         let graphingDictionary: [String: Double] = ["M": operand]
                         return weakSelf?.brain.evaluate(using: graphingDictionary).result }
+                    graphingViewController.navigationItem.title = self.brain.evaluate().description
                 }
             }
         }

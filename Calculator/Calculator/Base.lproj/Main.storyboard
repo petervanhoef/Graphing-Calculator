@@ -17,7 +17,7 @@
                 <splitViewController id="fcY-c8-IEH" sceneMemberID="viewController">
                     <connections>
                         <segue destination="TDa-oR-bW1" kind="relationship" relationship="masterViewController" id="duf-bC-jqV"/>
-                        <segue destination="Blb-hR-aDj" kind="relationship" relationship="detailViewController" id="jyr-Pc-8eS"/>
+                        <segue destination="UDb-wa-Ofv" kind="relationship" relationship="detailViewController" id="jyr-Pc-8eS"/>
                     </connections>
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="17o-kj-Tfc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -137,7 +137,7 @@
                                                             <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="Blb-hR-aDj" kind="showDetail" identifier="graph" id="Zbq-q6-BA9"/>
+                                                            <segue destination="UDb-wa-Ofv" kind="showDetail" identifier="graph" id="Zbq-q6-BA9"/>
                                                         </connections>
                                                     </button>
                                                 </subviews>
@@ -476,13 +476,14 @@
                             <constraint firstItem="JcA-5Q-PcB" firstAttribute="top" secondItem="puX-M5-gZH" secondAttribute="top" id="uwf-4a-bNJ"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Byl-gt-gP5"/>
                     <connections>
                         <outlet property="graphingView" destination="JcA-5Q-PcB" id="Ylg-pt-MSa"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rWH-Xh-Lu5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="137" y="887"/>
+            <point key="canvasLocation" x="1076" y="886.50674662668678"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="0lk-22-Puh">
@@ -502,8 +503,26 @@
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
         </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="H1N-rL-x3A">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="UDb-wa-Ofv" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="ZPK-pT-Z9r">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Blb-hR-aDj" kind="relationship" relationship="rootViewController" id="FTt-lI-yuD"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3YU-4j-vls" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="136.80000000000001" y="886.50674662668678"/>
+        </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="Zbq-q6-BA9"/>
+        <segue reference="jyr-Pc-8eS"/>
     </inferredMetricsTieBreakers>
 </document>

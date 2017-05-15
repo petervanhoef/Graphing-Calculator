@@ -623,13 +623,21 @@ class CalculatorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["39"].exists)
     }
     
-    func showCalculator() {
+    func showCalculator(navBarTitle: String = "Calculator.GraphingView") {
         // Don't know if this is the best way to make the calculator visible ...
-        if XCUIApplication().navigationBars["Calculator.GraphingView"].exists {
-            XCUIApplication().navigationBars["Calculator.GraphingView"].buttons["Calculator"].tap()
-        } else {
-            if !XCUIApplication().navigationBars.element.isHittable {
+        if XCUIApplication().buttons["Graph"].exists {
+            if !XCUIApplication().buttons["Graph"].isHittable {
                 XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element.swipeRight()
+            }
+        } else {
+            if XCUIApplication().navigationBars[navBarTitle].exists {
+                if XCUIApplication().navigationBars[navBarTitle].buttons["Calculator"].exists {
+                    XCUIApplication().navigationBars[navBarTitle].buttons["Calculator"].tap()
+                }
+            } else {
+                if !XCUIApplication().navigationBars.element.isHittable {
+                    XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element.swipeRight()
+                }
             }
         }
     }
@@ -640,7 +648,7 @@ class CalculatorUITests: XCTestCase {
         app.buttons["M"].tap()
         app.buttons["cos"].tap()
         app.buttons["Graph"].tap()
-        showCalculator()
+        showCalculator(navBarTitle: "cos(M)")
         XCTAssert(app.staticTexts["cos(M) ="].exists)
         XCTAssert(app.staticTexts["1"].exists)
         XCTAssert(app.staticTexts[" "].exists)
@@ -648,7 +656,7 @@ class CalculatorUITests: XCTestCase {
         app.buttons["M"].tap()
         app.buttons["√"].tap()
         app.buttons["Graph"].tap()
-        showCalculator()
+        showCalculator(navBarTitle: "√(M)")
         XCTAssert(app.staticTexts["√(M) ="].exists)
         XCTAssert(app.staticTexts["0"].exists)
         XCTAssert(app.staticTexts[" "].exists)
@@ -660,7 +668,7 @@ class CalculatorUITests: XCTestCase {
         XCTAssert(app.staticTexts["3"].exists)
         XCTAssert(app.staticTexts["9"].exists)
         app.buttons["Graph"].tap()
-        showCalculator()
+        showCalculator(navBarTitle: "√(M)")
         XCTAssert(app.staticTexts["√(M) ="].exists)
         XCTAssert(app.staticTexts["3"].exists)
         XCTAssert(app.staticTexts["9"].exists)
@@ -668,9 +676,31 @@ class CalculatorUITests: XCTestCase {
         app.buttons["M"].tap()
         app.buttons["tan"].tap()
         app.buttons["Graph"].tap()
-        showCalculator()
+        showCalculator(navBarTitle: "tan(M)")
         XCTAssert(app.staticTexts["tan(M) ="].exists)
         XCTAssert(app.staticTexts["-0.452316"].exists)
         XCTAssert(app.staticTexts["9"].exists)
+    }
+
+    func testGraphTitleAssignment3Task8() {
+        let app = XCUIApplication()
+        
+        app.buttons["M"].tap()
+        app.buttons["cos"].tap()
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["cos(M)"].exists)
+        showCalculator(navBarTitle: "cos(M)")
+        XCTAssert(app.staticTexts["cos(M) ="].exists)
+        XCTAssert(app.staticTexts["1"].exists)
+        XCTAssert(app.staticTexts[" "].exists)
+        
+        app.buttons["M"].tap()
+        app.buttons["√"].tap()
+        app.buttons["Graph"].tap()
+        XCTAssert(app.staticTexts["√(M)"].exists)
+        showCalculator(navBarTitle: "√(M)")
+        XCTAssert(app.staticTexts["√(M) ="].exists)
+        XCTAssert(app.staticTexts["0"].exists)
+        XCTAssert(app.staticTexts[" "].exists)
     }
 }
