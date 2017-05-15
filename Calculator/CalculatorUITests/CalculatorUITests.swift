@@ -14,7 +14,6 @@ class CalculatorUITests: XCTestCase {
         super.setUp()
         
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        XCUIDevice.shared().orientation = .landscapeLeft
         
         // In UI tests it is usually best to stop immediately when a failure occurs.
         continueAfterFailure = false
@@ -22,6 +21,7 @@ class CalculatorUITests: XCTestCase {
         XCUIApplication().launch()
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
+        showCalculator()
     }
     
     override func tearDown() {
@@ -623,12 +623,24 @@ class CalculatorUITests: XCTestCase {
         XCTAssertTrue(app.staticTexts["39"].exists)
     }
     
+    func showCalculator() {
+        // Don't know if this is the best way to make the calculator visible ...
+        if XCUIApplication().navigationBars["Calculator.GraphingView"].exists {
+            XCUIApplication().navigationBars["Calculator.GraphingView"].buttons["Calculator"].tap()
+        } else {
+            if !XCUIApplication().navigationBars.element.isHittable {
+                XCUIApplication().children(matching: .window).element(boundBy: 0).children(matching: .other).element.children(matching: .other).element(boundBy: 1).children(matching: .other).element.swipeRight()
+            }
+        }
+    }
+    
     func testGraphButtonAssignment3Task7() {
         let app = XCUIApplication()
-        
+
         app.buttons["M"].tap()
         app.buttons["cos"].tap()
         app.buttons["Graph"].tap()
+        showCalculator()
         XCTAssert(app.staticTexts["cos(M) ="].exists)
         XCTAssert(app.staticTexts["1"].exists)
         XCTAssert(app.staticTexts[" "].exists)
@@ -636,6 +648,7 @@ class CalculatorUITests: XCTestCase {
         app.buttons["M"].tap()
         app.buttons["√"].tap()
         app.buttons["Graph"].tap()
+        showCalculator()
         XCTAssert(app.staticTexts["√(M) ="].exists)
         XCTAssert(app.staticTexts["0"].exists)
         XCTAssert(app.staticTexts[" "].exists)
@@ -647,6 +660,7 @@ class CalculatorUITests: XCTestCase {
         XCTAssert(app.staticTexts["3"].exists)
         XCTAssert(app.staticTexts["9"].exists)
         app.buttons["Graph"].tap()
+        showCalculator()
         XCTAssert(app.staticTexts["√(M) ="].exists)
         XCTAssert(app.staticTexts["3"].exists)
         XCTAssert(app.staticTexts["9"].exists)
@@ -654,6 +668,7 @@ class CalculatorUITests: XCTestCase {
         app.buttons["M"].tap()
         app.buttons["tan"].tap()
         app.buttons["Graph"].tap()
+        showCalculator()
         XCTAssert(app.staticTexts["tan(M) ="].exists)
         XCTAssert(app.staticTexts["-0.452316"].exists)
         XCTAssert(app.staticTexts["9"].exists)
