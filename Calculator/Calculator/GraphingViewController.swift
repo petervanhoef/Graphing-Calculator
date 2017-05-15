@@ -35,6 +35,9 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
     @IBOutlet weak var graphingView: GraphingView! {
         didSet {
             graphingView.dataSource = self
+            let handler = #selector(GraphingView.changeScale(byReactingTo:))
+            let pinchRecognizer = UIPinchGestureRecognizer(target: graphingView, action: handler)
+            graphingView.addGestureRecognizer(pinchRecognizer)
         }
     }
     

@@ -22,7 +22,17 @@ class GraphingView: UIView {
     }
     
     @IBInspectable
-    var scale: CGFloat = 50
+    var scale: CGFloat = 50 { didSet { setNeedsDisplay() } }
+    
+    func changeScale(byReactingTo pinchRecognizer: UIPinchGestureRecognizer) {
+        switch pinchRecognizer.state {
+        case .changed, .ended:
+            scale *= pinchRecognizer.scale
+            pinchRecognizer.scale = 1
+        default:
+            break
+        }
+    }
 
     private var axesDrawer = AxesDrawer(color: UIColor.black, contentScaleFactor: 1.0)
     
