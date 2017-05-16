@@ -21,17 +21,6 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
         // Dispose of any resources that can be recreated.
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     @IBOutlet weak var graphingView: GraphingView! {
         didSet {
             graphingView.dataSource = self
@@ -41,6 +30,10 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
             
             let panRecognizer = UIPanGestureRecognizer(target: graphingView, action: #selector(graphingView.moveOrigin(byReactingTo:)))
             graphingView.addGestureRecognizer(panRecognizer)
+            
+            let tapRecognizer = UITapGestureRecognizer(target: graphingView, action: #selector(graphingView.setOrigin(byReactingTo:)))
+            tapRecognizer.numberOfTapsRequired = 2
+            graphingView.addGestureRecognizer(tapRecognizer)
         }
     }
     

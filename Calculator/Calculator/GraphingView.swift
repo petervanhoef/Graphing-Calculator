@@ -44,12 +44,21 @@ class GraphingView: UIView {
         }
     }
     
+    func setOrigin(byReactingTo tapRecognizer: UITapGestureRecognizer) {
+        switch tapRecognizer.state {
+        case .changed, .ended:
+            origin = tapRecognizer.location(in: self)
+        default:
+            break
+        }
+    }
+    
     private var axesDrawer = AxesDrawer(color: UIColor.black, contentScaleFactor: 1.0)
     
     private func pathForUnaryFunction() -> UIBezierPath {
         let path = UIBezierPath()
         
-        if dataSource != nil {
+        if dataSource != nil && origin != nil {
             // iterate over every pixel of the width of the view
             let numberOfPixelsHorizontally = Int(bounds.size.width * contentScaleFactor)
             var firstPixel = true
