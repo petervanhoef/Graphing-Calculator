@@ -14,6 +14,14 @@ class CalculatorViewController: UIViewController {
     @IBOutlet weak var sequence: UILabel!
     @IBOutlet weak var memory: UILabel!
     
+    @IBOutlet weak var graphButton: UIButton! {
+        didSet {
+            // default: disable graphButton
+            graphButton.isEnabled = false
+            graphButton.setTitleColor(UIColor.lightGray, for: .normal)
+        }
+    }
+    
     var userIsInTheMiddleOfTyping = false
     
     @IBAction func touchDigit(_ sender: UIButton) {
@@ -58,6 +66,13 @@ class CalculatorViewController: UIViewController {
                 memory.text = numberFormatter.string(from: NSNumber(value: memoryValue))
             } else {
                 memory.text = " "
+            }
+            if newValue.description.isEmpty || newValue.isPending {
+                graphButton.isEnabled = false
+                graphButton.setTitleColor(UIColor.lightGray, for: .normal)
+            } else {
+                graphButton.isEnabled = true
+                graphButton.setTitleColor(UIColor.red, for: .normal)
             }
         }
     }

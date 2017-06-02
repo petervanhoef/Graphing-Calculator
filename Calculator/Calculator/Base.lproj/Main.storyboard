@@ -443,6 +443,7 @@
                     <navigationItem key="navigationItem" title="Calculator" id="ap6-wv-E9M"/>
                     <connections>
                         <outlet property="display" destination="4bd-Me-ezz" id="zeE-Ag-TgH"/>
+                        <outlet property="graphButton" destination="dtK-K0-MGK" id="fu5-WE-1Mz"/>
                         <outlet property="memory" destination="wjb-um-tjz" id="Vua-Xb-Okf"/>
                         <outlet property="sequence" destination="F14-Z7-0GL" id="0hs-zV-of4"/>
                     </connections>
