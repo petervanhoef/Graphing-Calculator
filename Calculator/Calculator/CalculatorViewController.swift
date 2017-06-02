@@ -9,7 +9,7 @@
 import UIKit
 
 class CalculatorViewController: UIViewController {
-
+    
     @IBOutlet weak var display: UILabel!
     @IBOutlet weak var sequence: UILabel!
     @IBOutlet weak var memory: UILabel!
@@ -37,13 +37,13 @@ class CalculatorViewController: UIViewController {
             if (newValue.errorDescription != nil) {
                 display.text = newValue.errorDescription!
             } else {
-            if newValue.result != nil {
-                let numberFormatter = NumberFormatter()
-                numberFormatter.numberStyle = .decimal
-                numberFormatter.usesGroupingSeparator = false
-                numberFormatter.maximumFractionDigits = Constants.numberOfDigitsAfterDecimalPoint
-                display.text = numberFormatter.string(from: NSNumber(value: newValue.result!))
-            }
+                if newValue.result != nil {
+                    let numberFormatter = NumberFormatter()
+                    numberFormatter.numberStyle = .decimal
+                    numberFormatter.usesGroupingSeparator = false
+                    numberFormatter.maximumFractionDigits = Constants.numberOfDigitsAfterDecimalPoint
+                    display.text = numberFormatter.string(from: NSNumber(value: newValue.result!))
+                }
             }
             if newValue.description.isEmpty {
                 sequence.text = " "
@@ -130,7 +130,7 @@ class CalculatorViewController: UIViewController {
             }
         }
     }
- 
+    
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
         if identifier == "graph" {
             return !brain.evaluate(using: dictionary).isPending
