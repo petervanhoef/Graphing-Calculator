@@ -34,6 +34,13 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
             let tapRecognizer = UITapGestureRecognizer(target: graphingView, action: #selector(graphingView.setOrigin(byReactingTo:)))
             tapRecognizer.numberOfTapsRequired = 2
             graphingView.addGestureRecognizer(tapRecognizer)
+            
+            if scale != nil {
+                graphingView.scale = scale!
+            }
+            if origin != nil {
+                graphingView.origin = origin
+            }
         }
     }
     
@@ -45,4 +52,33 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
     }
 
     var unaryFunction: ((Double) -> Double?)?
+    
+    private let defaults = UserDefaults.standard
+    
+    private var scale: CGFloat? {
+        get {
+            return defaults.value(forKey: Keys.scale) as? CGFloat
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.scale)
+        }
+    }
+    
+    private var origin: CGPoint? {
+        get {
+            if let point = defaults.value(forKey: Keys.origin) as? [CGFloat] {
+                return CGPoint(x: point[0], y: point[1])
+            }
+            return nil
+        }
+        set {
+            defaults.set([newValue?.x, newValue?.y], forKey: Keys.origin)
+        }
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(true)
+        scale = graphingView.scale
+        origin = graphingView.origin
+    }
 }

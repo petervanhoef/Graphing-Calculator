@@ -17,7 +17,7 @@ class GraphingView: UIView {
     
     var dataSource: GraphingViewDataSource?
 
-    private var origin: CGPoint? { didSet { setNeedsDisplay() } }
+    var origin: CGPoint? { didSet { setNeedsDisplay() } }
     
     @IBInspectable
     var scale: CGFloat = 50 { didSet { setNeedsDisplay() } }
