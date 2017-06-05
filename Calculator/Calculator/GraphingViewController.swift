@@ -81,4 +81,13 @@ class GraphingViewController: UIViewController, GraphingViewDataSource {
         scale = graphingView.scale
         origin = graphingView.origin
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+
+        let fromViewCenterX = (graphingView.origin?.x)! - graphingView.bounds.midX
+        let fromViewCenterY = (graphingView.origin?.y)! - graphingView.bounds.midY
+        
+        graphingView.origin = CGPoint(x: size.width / 2 + fromViewCenterX, y: size.height / 2 + fromViewCenterY)
+    }
 }
