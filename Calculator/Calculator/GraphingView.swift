@@ -22,11 +22,25 @@ class GraphingView: UIView {
     @IBInspectable
     var scale: CGFloat = 50 { didSet { setNeedsDisplay() } }
     
+    private var snapshotView: UIView?
+    
     func changeScale(byReactingTo pinchRecognizer: UIPinchGestureRecognizer) {
         switch pinchRecognizer.state {
-        case .changed, .ended:
-            scale *= pinchRecognizer.scale
+        case .began:
+            snapshotView = self.snapshotView(afterScreenUpdates: false)
+            snapshotView!.alpha = 0.80
+            self.addSubview(snapshotView!)
+        case .changed:
+            snapshotView!.frame.size.height *= pinchRecognizer.scale
+            snapshotView!.frame.size.width *= pinchRecognizer.scale
+            let snapShotViewOrigin = CGPoint(x: origin!.x * (snapshotView!.frame.height / self.frame.height), y: origin!.y * (snapshotView!.frame.height / self.frame.height))
+            snapshotView!.frame.origin.x = self.frame.origin.x - (snapShotViewOrigin.x - origin!.x)
+            snapshotView!.frame.origin.y = self.frame.origin.y - (snapShotViewOrigin.y - origin!.y)
             pinchRecognizer.scale = 1
+        case .ended:
+            scale *= (snapshotView!.frame.height / self.frame.height)
+            snapshotView!.removeFromSuperview()
+            snapshotView = nil
         default:
             break
         }
@@ -34,11 +48,20 @@ class GraphingView: UIView {
 
     func moveOrigin(byReactingTo panRecognizer: UIPanGestureRecognizer) {
         switch panRecognizer.state {
-        case .changed, .ended:
+        case .began:
+            snapshotView = self.snapshotView(afterScreenUpdates: false)
+            snapshotView!.alpha = 0.80
+            self.addSubview(snapshotView!)
+        case .changed:
             let translation = panRecognizer.translation(in: self)
-            origin!.x += translation.x
-            origin!.y += translation.y
+            snapshotView!.center.x += translation.x
+            snapshotView!.center.y += translation.y
             panRecognizer.setTranslation(CGPoint.zero, in: self)
+        case .ended:
+            origin!.x += snapshotView!.frame.origin.x
+            origin!.y += snapshotView!.frame.origin.y
+            snapshotView!.removeFromSuperview()
+            snapshotView = nil
         default:
             break
         }
