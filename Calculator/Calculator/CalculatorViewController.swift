@@ -125,7 +125,46 @@ class CalculatorViewController: UIViewController {
         brain.setOperand(variable: symbol)
         displays = brain.evaluateWithErrorReport(using: dictionary)
     }
-    
+  
+    private let defaults = UserDefaults.standard
+
+    private var savedSequence: [AnyObject]? {
+        get {
+            return defaults.value(forKey: Keys.savedSequence) as? [AnyObject]
+        }
+        set {
+            defaults.set(newValue, forKey: Keys.savedSequence)
+        }
+    }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Do any additional setup after loading the view.
+        if savedSequence != nil {
+            brain.savedSequence = savedSequence!
+            displays = brain.evaluateWithErrorReport(using: dictionary)
+
+            var viewController = splitViewController?.viewControllers.last
+            if let navigationController = viewController as? UINavigationController {
+                viewController = navigationController.visibleViewController
+            }
+            if let graphingViewController = viewController as? GraphingViewController {
+                graphingViewController.unaryFunction = { [weak weakSelf = self] operand in
+                    let graphingDictionary: [String: Double] = ["M": operand]
+                    return weakSelf?.brain.evaluate(using: graphingDictionary).result }
+                graphingViewController.navigationItem.title = self.brain.evaluate().description
+            }
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if !brain.evaluate(using: dictionary).isPending {
+            savedSequence = brain.savedSequence
+        }
+    }
     
     // MARK: - Navigation
     

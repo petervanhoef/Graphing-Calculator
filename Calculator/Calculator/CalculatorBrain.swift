@@ -181,4 +181,38 @@ struct CalculatorBrain {
         }
         
     }
+    
+    var savedSequence: [AnyObject] {
+        get {
+            var encodedSequence = [AnyObject]()
+            for item in sequence {
+                switch item {
+                case .operand(let operand):
+                    encodedSequence.append(operand as AnyObject)
+                case .operation(let operation):
+                    encodedSequence.append(operation as AnyObject)
+                case .variable(let variable):
+                    encodedSequence.append(variable as AnyObject)
+                }
+            }
+            return encodedSequence
+        }
+        set {
+            var decodedSequence = [ExpressionLiteral]()
+            for item in newValue {
+                if let operand = item as? Double {
+                    decodedSequence.append(.operand(operand))
+                } else {
+                    if let name = item as? String {
+                        if operations[name] != nil {
+                            decodedSequence.append(.operation(name))
+                        } else {
+                            decodedSequence.append(.variable(name))
+                        }
+                    }
+                }
+            }
+            sequence = decodedSequence
+        }
+    }
 }

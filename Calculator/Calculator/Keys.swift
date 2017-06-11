@@ -11,4 +11,5 @@ import Foundation
 struct Keys {
         static let scale = "scale"
         static let origin = "origin"
+        static let savedSequence = "savedSequence"
 }
