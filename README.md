@@ -16,7 +16,7 @@ Some notes:
   * [Fixed bugs](https://github.com/petervanhoef/Graphing-Calculator/issues?q=is%3Aissue+is%3Aclosed+label%3Abug)
 * And, finally, if you like the project, you are welcome to star this project!
 
-Environment: Xcode Version 8.3.2 (8E2002) running on macOS Sierra 10.12.5 (16F73)
+Environment: Xcode Version 8.3.3 (8E3004b) running on macOS Sierra 10.12.5 (16F73)
 
 ## Screen shots
 * Calculator in portrait mode on iPhone 7:
